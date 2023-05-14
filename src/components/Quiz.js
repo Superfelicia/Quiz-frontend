@@ -1,10 +1,12 @@
 import {useState} from "react";
 import '../styles/style.css';
+
 const Quiz = () => {
     const [activeQuestion, setActiveQuestion] = useState(0);
     const [selectedAnswer, setSelectedAnswer] = useState(null);
     const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(null);
     const [result, setResult] = useState([]);
+    const [isFinished, setIsFinished] = useState(false);
 
     const questions = [
         {
@@ -20,8 +22,8 @@ const Quiz = () => {
 
     const choices = [
         {
-          id: 0,
-          name: 'Ante',
+            id: 0,
+            name: 'Ante',
         },
         {
             id: 1,
@@ -38,14 +40,27 @@ const Quiz = () => {
     ];
 
     console.log(questions);
+    console.log(result);
 
     const onClickNext = () => {
-        setActiveQuestion(prevActiveQuestion => prevActiveQuestion + 1);
-        const nextQuestionIndex = activeQuestion + 1;
+        if (activeQuestion <= questions.length - 2) {
+            setActiveQuestion(prevActiveQuestion => prevActiveQuestion + 1);
+            const nextQuestionIndex = activeQuestion + 1;
 
-        setActiveQuestion(nextQuestionIndex);
-        setSelectedAnswer(null);
-        setSelectedAnswerIndex(null);
+            setActiveQuestion(nextQuestionIndex);
+            setSelectedAnswer(null);
+            setSelectedAnswerIndex(null);
+        } else {
+            setIsFinished(true);
+        }
+    }
+
+    const renderQuestion = () => {
+        if (questions[activeQuestion] === undefined) {
+            return 'No more questions';
+        } else {
+            return questions[activeQuestion].question;
+        }
     }
 
     //sätter vilket svar som valts
@@ -73,15 +88,30 @@ const Quiz = () => {
                         <span>NF10 reunion quiz</span>
                     </div>
                 </div>
-                <div className="question-container">
-                    <span className="question">{`${questions[activeQuestion].question}`}</span>
-                </div>
-                <div className="container">
-                    {choices.map((choice, index) => (
-                        <div id="option-div" key={index}>{`${choice.name}`}</div>
-                    ))}
-                </div>
-                <button className="next-button" onClick={onClickNext}>{'Next'}</button>
+                {isFinished ? (
+                    <>
+                        End of quiz
+                    </>
+                ) : (
+                    <>
+                        <div className="question-container">
+                            <span className="question">{renderQuestion()}</span>
+                        </div>
+                        <div className="container">
+                            {choices.map((choice, index) => (
+                                <div id="option-div"
+                                     onClick={() => onSelectedAnswer(choice.id, index)}
+                                     className={index === selectedAnswerIndex ? 'selected-answer' : null}
+                                     key={index}>
+                                    {`${choice.name}`}
+                                </div>
+                            ))}
+                        </div>
+                        <button className="next-button" disabled={selectedAnswerIndex === null}
+                                onClick={onClickNext}>{activeQuestion === questions.length - 1 ? 'Finish' : 'Next'}
+                        </button>
+                    </>
+                )}
             </div>
         </div>
     );
