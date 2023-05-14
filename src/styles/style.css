@@ -1,0 +1,104 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    /*font-family: "Poppins", sans-serif;*/
+}
+
+body {
+    height: 100vh;
+    background: linear-gradient(184deg, rgba(84, 152, 255, 0.7), rgba(121, 84, 255, 0.91));
+}
+
+button {
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.display-container {
+    background-color: #ffffff;
+    padding: 3.1em 1.8em;
+    width: 80%;
+    max-width: 37.5em;
+    margin: 0 auto;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    border-radius: 0.6em;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.header {
+    margin-bottom: 1.8em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0.6em;
+    border-bottom: 0.1em solid #c0bfd2;
+    font-size: 24px;
+    font-weight: 600;
+    font-family: 'Kanit', sans-serif;
+}
+
+.question-container {
+    margin-bottom: 20px;
+    font-size: 20px;
+    text-decoration: underline;
+}
+
+.question {
+    margin-bottom: 1.25em;
+    font-weight: 600;
+    font-family: 'Ruluko', sans-serif;
+}
+
+#option-div {
+    font-size: 0.9em;
+    width: 90%;
+    padding: 1em;
+    margin: 0.3em 0;
+    text-align: left;
+    outline: none;
+    background: transparent;
+    border: 1px solid #c0bfd2;
+    border-radius: 0.3em;
+    cursor: pointer;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    font-family: 'Lato', sans-serif;
+}
+
+#option-div:hover {
+    transform: scale(1.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+#option-div.selected-answer {
+    background: rgba(179, 238, 66, 0.9);
+    border: 1px solid rgb(136, 187, 33);
+}
+
+#option-div:disabled {
+    color: #000000;
+    cursor: not-allowed;
+}
+
+.next-button {
+    font-size: 1em;
+    margin-top: 1.5em;
+    background-color: #8754ff;
+    color: #ffffff;
+    padding: 0.7em 1.8em;
+    border-radius: 0.3em;
+    float: right;
+    box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.hide {
+    display: none;
+}
