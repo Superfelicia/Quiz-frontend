@@ -63,12 +63,27 @@ const Quiz = () => {
         }
     }
 
+    const quizIsFinished = () => {
+        return (
+            <>
+                <div className="header">
+                    <div>
+                        <span>NF10</span>
+                    </div>
+                </div>
+                <div className="question-container">
+                    <span className="question">End of quiz</span>
+                </div>
+            </>
+        );
+    }
+
     //sätter vilket svar som valts
     const onSelectedAnswer = (answer, index) => {
         setSelectedAnswer(answer);
         setSelectedAnswerIndex(index);
         //sparar och kopierar alla properties av det tidigare resultatet och använder spread operator (...prevResult)
-        //activeQuestion agerar "key" för att veta vilken fråga svaret ska sparas
+        //activeQuestion agerar "key" för att veta vilken fråga svaret ska sparas på
 
         setResult(prevResult => ({
             ...prevResult,
@@ -83,17 +98,13 @@ const Quiz = () => {
     return (
         <div>
             <div className="display-container">
-                <div className="header">
-                    <div className="number-of-count">
-                        <span>NF10 reunion quiz</span>
-                    </div>
-                </div>
-                {isFinished ? (
+                {isFinished ? quizIsFinished() : (
                     <>
-                        End of quiz
-                    </>
-                ) : (
-                    <>
+                        <div className="header">
+                            <div>
+                                <span>NF10 reunion quiz</span>
+                            </div>
+                        </div>
                         <div className="question-container">
                             <span className="question">{renderQuestion()}</span>
                         </div>
