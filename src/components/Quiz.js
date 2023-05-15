@@ -94,12 +94,12 @@ const Quiz = () => {
                             <span className="question">{renderQuestion()}</span>
                         </div>
                         <div className="container">
-                            {choices.map((choice, index) => (
+                            {choices.map(({choice}, index) => (
                                 <div id="option-div"
                                      onClick={() => onSelectedAnswer(choice.id, index)}
                                      className={index === selectedAnswerIndex ? 'selected-answer' : null}
                                      key={index}>
-                                    {`${choice.name}`}
+                                    {`${choice}`}
                                 </div>
                             ))}
                         </div>
