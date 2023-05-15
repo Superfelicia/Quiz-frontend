@@ -1,45 +1,31 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import '../styles/style.css';
 
 const Quiz = () => {
+    const [questions, setQuestions] = useState([]);
+    const [choices, setChoices] = useState([]);
     const [activeQuestion, setActiveQuestion] = useState(0);
     const [selectedAnswer, setSelectedAnswer] = useState(null);
     const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(null);
     const [result, setResult] = useState([]);
     const [isFinished, setIsFinished] = useState(false);
 
-    const questions = [
-        {
-            question: 'What are you doing?'
-        },
-        {
-            question: 'Huh.'
-        },
-        {
-            question: 'Me?'
-        },
-    ];
+    useEffect(() => {
+        fetch('http://localhost:3001/getQuizQuestions')
+            .then(res => res.json())
+            .then(questions => setQuestions(questions))
+            .catch(error => console.error('data not loaded', error));
+    }, []);
 
-    const choices = [
-        {
-            id: 0,
-            name: 'Ante',
-        },
-        {
-            id: 1,
-            name: 'Me?',
-        },
-        {
-            id: 2,
-            name: 'Fellan',
-        },
-        {
-            id: 3,
-            name: 'Huh',
-        },
-    ];
+    useEffect(() => {
+        fetch('http://localhost:3001/getQuizChoices')
+            .then(res => res.json())
+            .then(choices => setChoices(choices.choices));
+    }, []);
 
-    console.log(questions);
+
+    console.log(choices)
+
     console.log(result);
 
     const onClickNext = () => {
@@ -56,6 +42,7 @@ const Quiz = () => {
     }
 
     const renderQuestion = () => {
+        console.log(questions)
         if (questions[activeQuestion] === undefined) {
             return 'No more questions';
         } else {
