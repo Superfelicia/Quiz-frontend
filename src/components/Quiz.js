@@ -54,7 +54,7 @@ const Quiz = () => {
             <>
                 <div className="header">
                     <div>
-                        <span>NF10</span>
+                        <span>Quiz inactive</span>
                     </div>
                 </div>
                 <div className="question-container">
@@ -87,7 +87,7 @@ const Quiz = () => {
                     <>
                         <div className="header">
                             <div>
-                                <span>NF10 reunion quiz</span>
+                                <span>Quiz active</span>
                             </div>
                         </div>
                         <div className="question-container">
