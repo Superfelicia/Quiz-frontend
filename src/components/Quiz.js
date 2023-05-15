@@ -11,22 +11,18 @@ const Quiz = () => {
     const [isFinished, setIsFinished] = useState(false);
 
     useEffect(() => {
-        fetch('http://localhost:3001/getQuizQuestions')
-            .then(res => res.json())
-            .then(questions => setQuestions(questions))
-            .catch(error => console.error('data not loaded', error));
+        Promise.all([
+            fetch('http://localhost:3001/getQuizQuestions'),
+            fetch('http://localhost:3001/getQuizChoices'),
+        ])
+            .then(([resQuestions, resChoices]) =>
+                Promise.all([resQuestions.json(), resChoices.json()])
+            )
+            .then(([dataQuestions, dataChoices]) => {
+                setQuestions(dataQuestions);
+                setChoices(dataChoices);
+            });
     }, []);
-
-    useEffect(() => {
-        fetch('http://localhost:3001/getQuizChoices')
-            .then(res => res.json())
-            .then(choices => setChoices(choices.choices));
-    }, []);
-
-
-    console.log(choices)
-
-    console.log(result);
 
     const onClickNext = () => {
         if (activeQuestion <= questions.length - 2) {
@@ -42,13 +38,16 @@ const Quiz = () => {
     }
 
     const renderQuestion = () => {
-        console.log(questions)
         if (questions[activeQuestion] === undefined) {
             return 'No more questions';
         } else {
             return questions[activeQuestion].question;
         }
     }
+
+    console.log(questions)
+    console.log(choices)
+    console.log(result);
 
     const quizIsFinished = () => {
         return (
@@ -80,7 +79,6 @@ const Quiz = () => {
             }
         }));
     }
-
 
     return (
         <div>
