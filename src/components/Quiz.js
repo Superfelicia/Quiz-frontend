@@ -49,21 +49,6 @@ const Quiz = () => {
     console.log(choices)
     console.log(result);
 
-    const quizIsFinished = () => {
-        return (
-            <>
-                <div className="header">
-                    <div>
-                        <span>Quiz inactive</span>
-                    </div>
-                </div>
-                <div className="question-container">
-                    <span className="question">End of quiz</span>
-                </div>
-            </>
-        );
-    }
-
     //sätter vilket svar som valts
     const onSelectedAnswer = (answer, index) => {
         setSelectedAnswer(answer);
@@ -75,9 +60,35 @@ const Quiz = () => {
             ...prevResult,
             [activeQuestion]: {
                 id: choices[index].id,
-                name: choices[index].name,
+                choice: choices[index].choice,
             }
         }));
+    }
+
+
+    const quizIsFinished = () => {
+        return (
+            <>
+                <div className="header">
+                    <div>
+                        <span>Quiz inactive</span>
+                    </div>
+                </div>
+                <div className="question-container">
+                    <span className="question">End of quiz</span>
+                </div>
+                <div className="container">
+                    {choices.map(({choice}, index) => (
+                        <div id="option-div"
+                            //onClick={() => onSelectedAnswer(choice.id, index)}
+                            //className={index === selectedAnswerIndex ? 'selected-answer' : null}
+                             key={index}>
+                            {`${choice}`}
+                        </div>
+                    ))}
+                </div>
+            </>
+        );
     }
 
     return (
