@@ -60,7 +60,7 @@ const Quiz = () => {
             ...prevResult,
             [activeQuestion]: {
                 id: choices[index].id,
-                choice: choices[index].choice,
+                choice: choices[index].name,
             }
         }));
     }
@@ -76,16 +76,6 @@ const Quiz = () => {
                 </div>
                 <div className="question-container">
                     <span className="question">End of quiz</span>
-                </div>
-                <div className="container">
-                    {choices.map(({choice}, index) => (
-                        <div id="option-div"
-                            //onClick={() => onSelectedAnswer(choice.id, index)}
-                            //className={index === selectedAnswerIndex ? 'selected-answer' : null}
-                             key={index}>
-                            {`${choice}`}
-                        </div>
-                    ))}
                 </div>
             </>
         );
