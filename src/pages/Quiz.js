@@ -23,6 +23,10 @@ const Quiz = () => {
                 setChoices(dataChoices);
             });
     }, []);
+    
+    useEffect(() => {
+        console.log(result)
+    },[result])
 
     const onClickNext = () => {
         if (activeQuestion <= questions.length - 2) {
@@ -45,10 +49,6 @@ const Quiz = () => {
         }
     }
 
-    console.log(questions)
-    console.log(choices)
-    console.log(result);
-
     //sätter vilket svar som valts
     const onSelectedAnswer = (answer, index) => {
         setSelectedAnswer(answer);
@@ -59,10 +59,21 @@ const Quiz = () => {
         setResult(prevResult => ({
             ...prevResult,
             [activeQuestion]: {
-                id: choices[index].id,
-                choice: choices[index].name,
+                choice: choices[index].choice,
             }
         }));
+    }
+
+    const onFinishedClick = () => {
+        fetch('http://localhost:3001/postQuizAnswers', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                result,
+            }),
+        })
     }
 
 
@@ -105,7 +116,7 @@ const Quiz = () => {
                             ))}
                         </div>
                         <button className="next-button" disabled={selectedAnswerIndex === null}
-                                onClick={onClickNext}>{activeQuestion === questions.length - 1 ? 'Finish' : 'Next'}
+                                onClick={activeQuestion === questions.length - 1 ? onFinishedClick : onClickNext}>{activeQuestion === questions.length - 1 ? 'Finish' : 'Next'}
                         </button>
                     </>
                 )}
