@@ -23,7 +23,7 @@ const Quiz = () => {
                 setChoices(dataChoices);
             });
     }, []);
-    
+
     useEffect(() => {
         console.log(result)
     },[result])
