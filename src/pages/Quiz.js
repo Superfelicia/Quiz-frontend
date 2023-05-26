@@ -36,8 +36,6 @@ const Quiz = () => {
             setActiveQuestion(nextQuestionIndex);
             setSelectedAnswer(null);
             setSelectedAnswerIndex(null);
-        } else {
-            setIsFinished(true);
         }
     }
 
@@ -74,6 +72,7 @@ const Quiz = () => {
                 result,
             }),
         })
+        setIsFinished(true)
     }
 
 
@@ -116,7 +115,7 @@ const Quiz = () => {
                             ))}
                         </div>
                         <button className="next-button" disabled={selectedAnswerIndex === null}
-                                onClick={activeQuestion === questions.length - 1 ? onFinishedClick : onClickNext}>{activeQuestion === questions.length - 1 ? 'Finish' : 'Next'}
+                                onClick={activeQuestion >= questions.length - 1? onFinishedClick : onClickNext}>{activeQuestion === questions.length - 1 ? 'Finish' : 'Next'}
                         </button>
                     </>
                 )}
