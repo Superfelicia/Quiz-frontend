@@ -3,15 +3,8 @@ import {useEffect, useState} from "react";
 const Results = () => {
     const [questions, setQuestions] = useState([]);
     const [answers, setAnswers] = useState([]);
-    const [allAnswers, setAllAnswers] = useState([]);
     const [activeQuestion, setActiveQuestion] = useState(0);
-    const [selectedAnswer, setSelectedAnswer] = useState(null);
-    const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(null);
     const [isFinished, setIsFinished] = useState(false);
-
-
-    let newResultArr = [];
-    let duplicates = [];
 
 
     useEffect(() => {
@@ -35,14 +28,14 @@ const Results = () => {
             const nextQuestionIndex = activeQuestion + 1;
 
             setActiveQuestion(nextQuestionIndex);
-            setSelectedAnswer(null);
-            setSelectedAnswerIndex(null);
         } else {
             setIsFinished(true);
         }
     }
 
     const getResultAnswers = () => {
+        let newResultArr = [];
+        const duplicates = [];
         for (let i = 0; i < answers.length; i++) {
             if (questions[activeQuestion] === questions[i]) {
                 newResultArr = answers[i];
@@ -50,7 +43,6 @@ const Results = () => {
         }
 
         let duplicateCounts = newResultArr.reduce((count, answer) => (count[answer] = count[answer] + 1 || 1, count), {});
-
         // Find objects occurring multiple times
         for (let el in duplicateCounts) {
             if (duplicateCounts.hasOwnProperty(el)) {
@@ -60,17 +52,6 @@ const Results = () => {
 
         return duplicates;
     };
-
-
-    useEffect(() => {
-        if (answers.length === 0) {
-            const resultAnswers = getResultAnswers();
-            console.log(resultAnswers)
-
-            setAllAnswers(prevAllAnswers => [...prevAllAnswers, ...resultAnswers]);
-        }
-    }, [answers]);
-
 
     const renderQuestion = () => {
         if (questions[activeQuestion] === undefined) {
