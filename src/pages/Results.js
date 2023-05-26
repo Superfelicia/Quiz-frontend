@@ -7,6 +7,8 @@ const Results = () => {
     const [activeQuestion, setActiveQuestion] = useState(0);
     const [selectedAnswer, setSelectedAnswer] = useState(null);
     const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(null);
+    const [isFinished, setIsFinished] = useState(false);
+
 
     let newResultArr = [];
     let duplicates = [];
@@ -35,13 +37,14 @@ const Results = () => {
             setActiveQuestion(nextQuestionIndex);
             setSelectedAnswer(null);
             setSelectedAnswerIndex(null);
+        } else {
+            setIsFinished(true);
         }
     }
 
     const getResultAnswers = () => {
         for (let i = 0; i < answers.length; i++) {
             if (questions[activeQuestion] === questions[i]) {
-                console.log(answers[i])
                 newResultArr = answers[i];
             }
         }
@@ -77,27 +80,46 @@ const Results = () => {
         }
     }
 
-    return (
-        <div>
-            <div className="display-container">
+    const resultsIsFinished = () => {
+        return (
+            <>
                 <div className="header">
                     <div>
                         <span>Results</span>
                     </div>
                 </div>
                 <div className="question-container">
-                    <span className="question">{renderQuestion()}</span>
+                    <span className="question">End of results</span>
                 </div>
-                <div className="container">
-                    {getResultAnswers().map(({object, count}, index) => (
-                        <div id="option-div" key={index}>
-                            {object} {count}
+            </>
+        );
+    }
+
+    return (
+        <div>
+            <div className="display-container">
+                {isFinished ? resultsIsFinished() : (
+                    <>
+                        <div className="header">
+                            <div>
+                                <span>Results</span>
+                            </div>
                         </div>
-                    ))}
-                </div>
-                <button className="next-button"
-                        onClick={onClickNext}>{activeQuestion === questions.length - 1 ? 'End of results' : 'Next'}
-                </button>
+                        <div className="question-container">
+                            <span className="question">{renderQuestion()}</span>
+                        </div>
+                        <div className="container">
+                            {getResultAnswers().map(({object, count}, index) => (
+                                <div id="option-div" key={index}>
+                                    {object} {count}
+                                </div>
+                            ))}
+                        </div>
+                        <button className="next-button"
+                                onClick={onClickNext}>{activeQuestion === questions.length - 1 ? 'End of results' : 'Next'}
+                        </button>
+                    </>
+                )}
             </div>
         </div>
     )
