@@ -50,6 +50,8 @@ const Results = () => {
             }
         }
 
+        duplicates.sort((a, b) => (a.count < b.count) ? 1 : -1);
+
         return duplicates;
     };
 
@@ -89,7 +91,7 @@ const Results = () => {
                         <div className="question-container">
                             <span className="question">{renderQuestion()}</span>
                         </div>
-                        <div className="container">
+                        <div className="container-results">
                             {getResultAnswers().map(({object, count}, index) => (
                                 <div id="option-div" key={index}>
                                     {object} {count}
