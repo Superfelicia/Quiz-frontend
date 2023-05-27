@@ -34,6 +34,11 @@ button {
     grid-template-columns: 1fr 1fr;
 }
 
+.container-results {
+    display: flex;
+    flex-direction: column;
+}
+
 .header {
     margin-bottom: 1.8em;
     display: flex;
@@ -60,6 +65,7 @@ button {
 }
 
 #option-div {
+    align-self: center;
     font-size: 0.9em;
     width: 90%;
     padding: 1em;
@@ -98,6 +104,12 @@ button {
     border-radius: 0.3em;
     float: right;
     box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.3);
+    opacity: 0.8;
+    transition: 0.3s;
+}
+
+.next-button:hover {
+    opacity: 1;
 }
 
 .hide {
