@@ -1,4 +1,6 @@
 import {useEffect, useState} from "react";
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faCrown, faMedal} from '@fortawesome/free-solid-svg-icons';
 
 const Results = () => {
     const [questions, setQuestions] = useState([]);
@@ -50,9 +52,31 @@ const Results = () => {
             }
         }
 
-        duplicates.sort((a, b) => (a.count < b.count) ? 1 : -1);
 
-        return duplicates;
+        // 6, 3, 3, 2, 2
+
+        let sorted = duplicates.sort((a, b) => b.count - a.count);
+
+        const randomMap = new Map();
+
+        for (let i = 0; i < sorted.length; i++) {
+            let voteAmount = sorted[i].count;
+            if (randomMap.has(voteAmount)) {
+                const newObject = randomMap.get(voteAmount);
+
+                newObject.push(sorted[i].object)
+                randomMap.set(sorted[i].count, newObject);
+            } else {
+                randomMap.set(voteAmount, [sorted[i].count, sorted[i].object])
+            }
+        }
+
+        let arr = Array.from(randomMap.values())
+        console.log(arr);
+
+        console.log(randomMap.forEach(el => console.log(el)))
+
+        return arr;
     };
 
     const renderQuestion = () => {
@@ -78,6 +102,19 @@ const Results = () => {
         );
     }
 
+    const optionDivStyle = (index) => {
+        switch (index) {
+            case 0:
+                return 'option-gold';
+            case 1:
+                return 'option-silver';
+            case 2:
+                return 'option-bronze';
+            default:
+                return 'option-div';
+        }
+    }
+
     return (
         <div>
             <div className="display-container">
@@ -92,17 +129,41 @@ const Results = () => {
                             <span className="question">{renderQuestion()}</span>
                         </div>
                         <div className="container-results">
-                            {getResultAnswers().map(({object, count}, index) => (
-                                <div id="option-div" key={index}>
-                                    {object} {count}
-                                </div>
-                            ))}
+                            {getResultAnswers().map((el, index) => {
+                                    return <div id={optionDivStyle(index)}>
+                                        <div className='result-answer'>
+                                            {el.map(item => {
+                                                if (typeof item === 'string')
+                                                    return <div className='text'>
+                                                        {item}
+                                                    </div>
+                                            })}
+                                        </div>
+                                        <div style={{alignSelf: "center", justifyContent: 'center'}}>
+                                            {optionDivStyle(index) === 'option-gold' ?
+                                                <FontAwesomeIcon icon={faCrown} size={'2xl'}></FontAwesomeIcon> :
+                                                optionDivStyle(index) === 'option-silver' || 'option-bronze' ?
+                                                    <FontAwesomeIcon icon={faMedal} size={optionDivStyle(index) === 'option-silver' ? 'xl' : 'lg'}></FontAwesomeIcon> : null}
+                                        </div>
+                                        <div className='result-answer'>
+                                            {el.map(item => {
+                                                if (typeof item === 'number') {
+                                                    return <div className='text-count'>
+                                                        {item}
+                                                    </div>
+                                                }
+                                            })}
+                                        </div>
+                                    </div>
+                                }
+                            )}
                         </div>
                         <button className="next-button"
                                 onClick={onClickNext}>{activeQuestion === questions.length - 1 ? 'End of results' : 'Next'}
                         </button>
                     </>
-                )}
+                )
+                }
             </div>
         </div>
     )
