@@ -36,7 +36,8 @@ button {
 
 .container-results {
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 .header {
@@ -64,7 +65,10 @@ button {
     font-style: italic;
 }
 
-#option-div {
+#option-div, #option-gold, #option-silver, #option-bronze {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
     align-self: center;
     font-size: 0.9em;
     width: 90%;
@@ -80,7 +84,39 @@ button {
     font-family: 'Lato', sans-serif;
 }
 
-#option-div:hover {
+#option-gold {
+    min-height: 90px;
+    color: gold;
+}
+
+#option-silver {
+    min-height: 80px;
+    color: silver;
+}
+
+#option-bronze {
+    min-height: 70px;
+    color: #CD7F32;
+}
+
+.result-answer {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 180px;
+    flex-wrap: wrap;
+}
+
+.text {
+    margin: 5px;
+    font-size: 17px;
+}
+
+.text-count {
+    font-size: 20px;
+}
+
+#option-div:hover, #option-gold:hover, #option-silver:hover, #option-bronze:hover {
     transform: scale(1.1);
     transition: transform 0.2s ease-in-out;
 }
