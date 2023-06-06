@@ -44,9 +44,7 @@ const Results = () => {
             }
         }
 
-        console.log(matchedAnswers)
         let answerCounts = matchedAnswers.reduce((count, answer) => (count[answer] = count[answer] + 1 || 1, count), {});
-        console.log(answerCounts)
         // Find objects occurring multiple times
         for (let el in answerCounts) {
             if (answerCounts.hasOwnProperty(el)) {
@@ -86,9 +84,7 @@ const Results = () => {
         return (
             <>
                 <div className="header">
-                    <div>
-                        <span>Results</span>
-                    </div>
+                        <h4>Results</h4>
                 </div>
                 <div className="question-container">
                     <span className="question">End of results</span>
@@ -100,13 +96,13 @@ const Results = () => {
     const handleResultStyling = (index) => {
         switch (index) {
             case 0:
-                return 'option-gold';
+                return 'result-gold';
             case 1:
-                return 'option-silver';
+                return 'result-silver';
             case 2:
-                return 'option-bronze';
+                return 'result-bronze';
             default:
-                return 'option-container';
+                return 'result-container';
         }
     }
 
@@ -136,50 +132,46 @@ const Results = () => {
     }
 
     return (
-        <div>
-            <div className="display-container">
-                {isFinished ? endOfResults() : (
-                    <>
-                        <div className="header">
-                            <div>
-                                <span>Results</span>
-                            </div>
-                        </div>
-                        <div className="question-container">
-                            <span className="question">{renderQuestion()}</span>
-                        </div>
-                        <div className="container-results">
-                            {getResultAnswers().map((el, index) => {
-                                    return <div key={index} id={handleResultStyling(index)}>
-                                        <div className='result-answer'>
-                                            {el.map((item, index) => {
-                                                if (typeof item === 'string')
-                                                    return <div key={index} className='text'>
-                                                        {item}
-                                                    </div>
-                                            })}
-                                        </div>
-                                        <ResultsIcon index={index}/>
-                                        <div className='result-answer'>
-                                            {el.map((item, index) => {
-                                                if (typeof item === 'number') {
-                                                    return <div key={index} className='text-count'>
-                                                        {item}
-                                                    </div>
-                                                }
-                                            })}
-                                        </div>
+        <div className="display-container">
+            {isFinished ? endOfResults() : (
+                <>
+                    <div className="header">
+                        <h4>Results</h4>
+                    </div>
+                    <div className="question-container">
+                        <span className="question">{renderQuestion()}</span>
+                    </div>
+                    <div className="container-results">
+                        {getResultAnswers().map((el, index) => {
+                                return <div key={index} className={handleResultStyling(index)}>
+                                    <div className='result-answer'>
+                                        {el.map((item, index) => {
+                                            if (typeof item === 'string')
+                                                return <div key={index} className='text'>
+                                                    {item}
+                                                </div>
+                                        })}
                                     </div>
-                                }
-                            )}
-                        </div>
-                        <button className="next-button"
-                                onClick={onClickNext}>{activeQuestion === questions.length - 1 ? 'End of results' : 'Next'}
-                        </button>
-                    </>
-                )
-                }
-            </div>
+                                    <ResultsIcon index={index}/>
+                                    <div className='result-answer'>
+                                        {el.map((item, index) => {
+                                            if (typeof item === 'number') {
+                                                return <div key={index} className='text-count'>
+                                                    {item}
+                                                </div>
+                                            }
+                                        })}
+                                    </div>
+                                </div>
+                            }
+                        )}
+                    </div>
+                    <button className="next-button"
+                            onClick={onClickNext}>{activeQuestion === questions.length - 1 ? 'End of results' : 'Next'}
+                    </button>
+                </>
+            )
+            }
         </div>
     )
 }

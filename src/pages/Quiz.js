@@ -24,10 +24,6 @@ const Quiz = () => {
             });
     }, []);
 
-    useEffect(() => {
-        console.log(result)
-    },[result])
-
     const onClickNext = () => {
         if (activeQuestion <= questions.length - 2) {
             setActiveQuestion(prevActiveQuestion => prevActiveQuestion + 1);
@@ -47,12 +43,9 @@ const Quiz = () => {
         }
     }
 
-    //sätter vilket svar som valts
     const onSelectedAnswer = (answer, index) => {
         setSelectedAnswer(answer);
         setSelectedAnswerIndex(index);
-        //sparar och kopierar alla properties av det tidigare resultatet och använder spread operator (...prevResult)
-        //activeQuestion agerar "key" för att veta vilken fråga svaret ska sparas på
 
         setResult(prevResult => ({
             ...prevResult,
@@ -75,14 +68,11 @@ const Quiz = () => {
         setIsFinished(true)
     }
 
-
     const quizIsFinished = () => {
         return (
             <>
                 <div className="header">
-                    <div>
-                        <span>Quiz inactive</span>
-                    </div>
+                    <h4>Quiz inactive</h4>
                 </div>
                 <div className="question-container">
                     <span className="question">End of quiz</span>
@@ -92,34 +82,34 @@ const Quiz = () => {
     }
 
     return (
-        <div>
-            <div className="display-container">
-                {isFinished ? quizIsFinished() : (
-                    <>
-                        <div className="header">
-                            <div>
-                                <span>Quiz active</span>
-                            </div>
+        <div className="display-container">
+            {isFinished ? quizIsFinished() : (
+                <>
+                    <div className="header">
+                        <div>
+                            <h4>NF10 quiz</h4>
                         </div>
-                        <div className="question-container">
-                            <span className="question">{renderQuestion()}</span>
-                        </div>
-                        <div className="container">
-                            {choices.map(({choice}, index) => (
-                                <div id="option-div"
-                                     onClick={() => onSelectedAnswer(choice.id, index)}
-                                     className={index === selectedAnswerIndex ? 'selected-answer' : null}
-                                     key={index}>
+                    </div>
+                    <div className="question-container">
+                        <span className="question">{renderQuestion()}</span>
+                    </div>
+                    <div className="container">
+                        {choices.map(({choice}, index) => (
+                            <div id="option-container"
+                                 onClick={() => onSelectedAnswer(choice.id, index)}
+                                 className={index === selectedAnswerIndex ? 'selected-answer' : null}
+                                 key={index}>
+                                <div className='option-text'>
                                     {`${choice}`}
                                 </div>
-                            ))}
-                        </div>
-                        <button className="next-button" disabled={selectedAnswerIndex === null}
-                                onClick={activeQuestion >= questions.length - 1? onFinishedClick : onClickNext}>{activeQuestion === questions.length - 1 ? 'Finish' : 'Next'}
-                        </button>
-                    </>
-                )}
-            </div>
+                            </div>
+                        ))}
+                    </div>
+                    <button className="next-button" disabled={selectedAnswerIndex === null}
+                            onClick={activeQuestion >= questions.length - 1 ? onFinishedClick : onClickNext}>{activeQuestion === questions.length - 1 ? 'Finish' : 'Next'}
+                    </button>
+                </>
+            )}
         </div>
     );
 }

@@ -2,7 +2,6 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    /*font-family: "Poppins", sans-serif;*/
 }
 
 body {
@@ -65,36 +64,43 @@ button {
     font-style: italic;
 }
 
-#option-div, #option-gold, #option-silver, #option-bronze {
+#option-container, .result-container, .result-gold, .result-silver, .result-bronze {
     display: flex;
-    justify-content: space-between;
-    flex-direction: row;
-    align-self: center;
     font-size: 0.9em;
     width: 90%;
     padding: 1em;
     margin: 0.3em 0;
-    text-align: left;
     outline: none;
     background: transparent;
     border: 1px solid #c0bfd2;
     border-radius: 0.3em;
     cursor: pointer;
-    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
     font-family: 'Lato', sans-serif;
 }
 
-#option-gold {
+#option-container {
+    display: flex;
+    justify-content: center;
+}
+
+.result-container, .result-gold, .result-silver, .result-bronze {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.result-gold {
     min-height: 90px;
     color: gold;
 }
 
-#option-silver {
+.result-silver {
     min-height: 80px;
     color: silver;
 }
 
-#option-bronze {
+.result-bronze {
     min-height: 70px;
     color: #CD7F32;
 }
@@ -116,19 +122,23 @@ button {
     font-size: 20px;
 }
 
-#option-div:hover, #option-gold:hover, #option-silver:hover, #option-bronze:hover {
+#option-container:hover, #option-gold:hover, #option-silver:hover, #option-bronze:hover {
     transform: scale(1.1);
     transition: transform 0.2s ease-in-out;
 }
 
-#option-div.selected-answer {
+#option-container.selected-answer {
     background: rgba(179, 238, 66, 0.9);
     border: 1px solid rgb(136, 187, 33);
 }
 
-#option-div:disabled {
+#option-container:disabled {
     color: #000000;
     cursor: not-allowed;
+}
+
+.award-icon {
+    align-self: center;
 }
 
 .next-button {
@@ -139,7 +149,7 @@ button {
     padding: 0.7em 1.8em;
     border-radius: 0.3em;
     float: right;
-    box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
     opacity: 0.8;
     transition: 0.3s;
 }
