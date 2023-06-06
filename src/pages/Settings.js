@@ -3,7 +3,6 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faWrench} from '@fortawesome/free-solid-svg-icons'
 
 const Settings = () => {
-
     const [settings, setSettings] = useState([]);
     const [questions, setQuestions] = useState([]);
     const [modalShow, setModalShow] = useState(false);
@@ -77,7 +76,7 @@ const Settings = () => {
                     <h3>Questions</h3>
                     {questions.length && questions.map((question) => {
                         return (
-                            <div style={{border: '1px solid black'}} onClick={(el) => openQuestionModal(el)}>
+                            <div onClick={(el) => openQuestionModal(el)} style={{border: '1px solid pink', margin: '10px', padding: '5px'}}>
                                 <p id={question.id}>{question.question}<FontAwesomeIcon icon={faWrench}/></p>
                             </div>
                         )
