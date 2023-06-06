@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faCrown, faMedal} from '@fortawesome/free-solid-svg-icons';
+import {faCrown, faMedal, faAward} from '@fortawesome/free-solid-svg-icons';
 
 const Results = () => {
     const [questions, setQuestions] = useState([]);
@@ -36,48 +36,43 @@ const Results = () => {
     }
 
     const getResultAnswers = () => {
-        let newResultArr = [];
-        const duplicates = [];
+        let matchedAnswers = [];
+        const formattedAnswers = [];
         for (let i = 0; i < answers.length; i++) {
             if (questions[activeQuestion] === questions[i]) {
-                newResultArr = answers[i];
+                matchedAnswers = answers[i];
             }
         }
 
-        let duplicateCounts = newResultArr.reduce((count, answer) => (count[answer] = count[answer] + 1 || 1, count), {});
+        console.log(matchedAnswers)
+        let answerCounts = matchedAnswers.reduce((count, answer) => (count[answer] = count[answer] + 1 || 1, count), {});
+        console.log(answerCounts)
         // Find objects occurring multiple times
-        for (let el in duplicateCounts) {
-            if (duplicateCounts.hasOwnProperty(el)) {
-                duplicates.push({object: el, count: duplicateCounts[el]});
+        for (let el in answerCounts) {
+            if (answerCounts.hasOwnProperty(el)) {
+                formattedAnswers.push({name: el, count: answerCounts[el]});
             }
         }
 
 
-        // 6, 3, 3, 2, 2
+        let sortedAnswers = formattedAnswers.sort((a, b) => b.count - a.count);
 
-        let sorted = duplicates.sort((a, b) => b.count - a.count);
+        const identicalCountCollection = new Map();
 
-        const randomMap = new Map();
+        for (let i = 0; i < sortedAnswers.length; i++) {
+            let voteAmount = sortedAnswers[i].count;
+            if (identicalCountCollection.has(voteAmount)) {
+                const existingNames = identicalCountCollection.get(voteAmount);
 
-        for (let i = 0; i < sorted.length; i++) {
-            let voteAmount = sorted[i].count;
-            if (randomMap.has(voteAmount)) {
-                const newObject = randomMap.get(voteAmount);
-
-                newObject.push(sorted[i].object)
-                randomMap.set(sorted[i].count, newObject);
+                existingNames.push(sortedAnswers[i].name);
+                identicalCountCollection.set(sortedAnswers[i].count, existingNames);
             } else {
-                randomMap.set(voteAmount, [sorted[i].count, sorted[i].object])
+                identicalCountCollection.set(voteAmount, [sortedAnswers[i].count, sortedAnswers[i].name]);
             }
         }
 
-        let arr = Array.from(randomMap.values())
-        console.log(arr);
-
-        console.log(randomMap.forEach(el => console.log(el)))
-
-        return arr;
-    };
+        return Array.from(identicalCountCollection.values());
+    }
 
     const renderQuestion = () => {
         if (questions[activeQuestion] === undefined) {
@@ -87,7 +82,7 @@ const Results = () => {
         }
     }
 
-    const resultsIsFinished = () => {
+    const endOfResults = () => {
         return (
             <>
                 <div className="header">
@@ -102,7 +97,7 @@ const Results = () => {
         );
     }
 
-    const optionDivStyle = (index) => {
+    const handleResultStyling = (index) => {
         switch (index) {
             case 0:
                 return 'option-gold';
@@ -111,14 +106,39 @@ const Results = () => {
             case 2:
                 return 'option-bronze';
             default:
-                return 'option-div';
+                return 'option-container';
         }
+    }
+
+    const ResultsIcon = ({index}) => {
+        let icon;
+        let size;
+        switch (index) {
+            case 0:
+                icon = faCrown
+                size = '2xl'
+                break;
+            case 1:
+            case 2:
+                icon = faMedal
+                size = 'xl'
+                break;
+            default:
+                icon = faAward
+                size = 'lg'
+                break;
+        }
+        return (
+            <div className='award-icon'>
+                <FontAwesomeIcon index={index} icon={icon} size={size}></FontAwesomeIcon>
+            </div>
+        )
     }
 
     return (
         <div>
             <div className="display-container">
-                {isFinished ? resultsIsFinished() : (
+                {isFinished ? endOfResults() : (
                     <>
                         <div className="header">
                             <div>
@@ -130,25 +150,20 @@ const Results = () => {
                         </div>
                         <div className="container-results">
                             {getResultAnswers().map((el, index) => {
-                                    return <div id={optionDivStyle(index)}>
+                                    return <div key={index} id={handleResultStyling(index)}>
                                         <div className='result-answer'>
-                                            {el.map(item => {
+                                            {el.map((item, index) => {
                                                 if (typeof item === 'string')
-                                                    return <div className='text'>
+                                                    return <div key={index} className='text'>
                                                         {item}
                                                     </div>
                                             })}
                                         </div>
-                                        <div style={{alignSelf: "center", justifyContent: 'center'}}>
-                                            {optionDivStyle(index) === 'option-gold' ?
-                                                <FontAwesomeIcon icon={faCrown} size={'2xl'}></FontAwesomeIcon> :
-                                                optionDivStyle(index) === 'option-silver' || 'option-bronze' ?
-                                                    <FontAwesomeIcon icon={faMedal} size={optionDivStyle(index) === 'option-silver' ? 'xl' : 'lg'}></FontAwesomeIcon> : null}
-                                        </div>
+                                        <ResultsIcon index={index}/>
                                         <div className='result-answer'>
-                                            {el.map(item => {
+                                            {el.map((item, index) => {
                                                 if (typeof item === 'number') {
-                                                    return <div className='text-count'>
+                                                    return <div key={index} className='text-count'>
                                                         {item}
                                                     </div>
                                                 }
