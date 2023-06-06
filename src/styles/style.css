@@ -15,7 +15,7 @@ button {
     cursor: pointer;
 }
 
-.display-container {
+.display-container, .settings-container {
     background-color: #ffffff;
     padding: 3.1em 1.8em;
     width: 80%;
@@ -26,6 +26,41 @@ button {
     top: 50%;
     left: 50%;
     border-radius: 0.6em;
+}
+
+.settings-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.question-modal {
+    z-index: 1;
+    background-color: lightpink;
+    width: 45%;
+    height: 55%;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    border-radius: 5px;
+}
+
+.question-modal-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.question-modal-header {
+    display: flex;
+    align-self: center;
+    margin: 20px;
+}
+
+.question-answer-container {
+    margin: 20px;
 }
 
 .container {
