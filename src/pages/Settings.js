@@ -16,6 +16,7 @@ const Settings = () => {
             console.log(resQuestions)
             setQuestions(resQuestions)
         }
+
         asyncFetch();
     }, [])
 
@@ -26,7 +27,7 @@ const Settings = () => {
         console.log(el.target.id)
     }
 
-    const QuestionModal = ({ questionId }) => {
+    const QuestionModal = ({questionId}) => {
         console.log(questionId, 1)
         if (!questionId) return;
         const currentQuestion = questions.find(el => el.id === questionId)
@@ -38,7 +39,13 @@ const Settings = () => {
                         {currentQuestion.question}
                     </h3>
                     <div className='question-answer-container'>
-                        <p>newAnswer</p>
+                        <h4 style={{fontStyle: 'italic', fontWeight: '400', marginBottom: '5px'}}>Add new answers to question:</h4>
+                        <input placeholder={'New answer'}/>
+                        <button type={'submit'} style={{marginLeft: '5px', border: '1px solid black', borderRadius: '5px'}}>Add</button>
+
+                        <div style={{padding: '10px', marginTop: '20px', textDecoration: 'underline'}}>
+                            <p>newAnswer</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -48,40 +55,48 @@ const Settings = () => {
     return (
         <>
             <div className='settings-container'>
-                <div>
+                <div className='settings-header'>
                     <h2>Settings</h2>
-                    <div>
-                        <h3>General quiz settings</h3>
-                        <p>Quiz name:</p>
-                        <input type={'text'}/>
-
+                </div>
+                <div className='container'>
+                    <div className='settings-grid-1'>
+                        <h3 className='settings-h3'>General quiz settings</h3>
+                        <div style={{margin: '5px'}}>
+                            <p style={{marginBottom: '10px', }}>Quiz name:</p>
+                            <input type={'text'}/>
+                            <button type={'submit'} style={{marginLeft: '5px', border: '1px solid black', borderRadius: '5px'}}>Submit</button>
+                        </div>
                     </div>
-                    <div>
-                        <h3>Color settings</h3>
-                        <h4>Color scheme</h4>
+                    <div className='settings-grid-2'>
+                        <h3 className='settings-h3'>Color settings</h3>
+                        <h4 style={{fontStyle: 'italic', fontWeight: '400'}}>Color scheme</h4>
                         <p>Primary:</p>
                         <input type={'color'}/>
                         <p>Secondary:</p>
                         <input type={'color'}/>
 
-                        <h4>Other colors</h4>
+                        <h4 style={{fontStyle: 'italic', fontWeight: '400'}}>Other colors</h4>
                         <p>Answer color:</p>
                         <input type={'color'}/>
                         <p>Selected answer color:</p>
                         <input type={'color'}/>
                     </div>
+
+                    <div className='settings-grid-3'>
+                        <h3 className='settings-h3'>Questions</h3>
+                        <h4 style={{fontStyle: 'italic', fontWeight: '400'}}>Add more answers to a question:</h4>
+                        {questions.length && questions.map((question) => {
+                            return (
+                                <div onClick={(el) => openQuestionModal(el)}
+                                     style={{border: '1px solid pink', margin: '10px', padding: '5px', display: 'flex', justifyContent: 'space-between'}}>
+                                    <p id={question.id}>{question.question}</p>
+                                    <FontAwesomeIcon icon={faWrench}/>
+                                </div>
+                            )
+                        })}
+                    </div>
                 </div>
 
-                <div>
-                    <h3>Questions</h3>
-                    {questions.length && questions.map((question) => {
-                        return (
-                            <div onClick={(el) => openQuestionModal(el)} style={{border: '1px solid pink', margin: '10px', padding: '5px'}}>
-                                <p id={question.id}>{question.question}<FontAwesomeIcon icon={faWrench}/></p>
-                            </div>
-                        )
-                    })}
-                </div>
 
             </div>
             {modalShow && <QuestionModal questionId={activeQuestion}/>}
