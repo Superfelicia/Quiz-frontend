@@ -1,13 +1,14 @@
 import {useEffect, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faWrench} from '@fortawesome/free-solid-svg-icons'
+import Modal from "../components/Modal";
 
 const Settings = () => {
     const [settings, setSettings] = useState([]);
     const [questions, setQuestions] = useState([]);
     const [modalShow, setModalShow] = useState(false);
     const [activeQuestion, setActiveQuestion] = useState(0);
-    const [choice, setChoice] = useState('');
+    let currentQuestion;
 
     useEffect(() => {
         async function asyncFetch() {
@@ -21,26 +22,6 @@ const Settings = () => {
         asyncFetch();
     }, [])
 
-    const handleChange = (event) => {
-        let value = (event.target.value);
-        console.log(value)
-        setChoice(value)
-    }
-
-    const handleSubmit = (event) => {
-        fetch('http://localhost:3001/postQuizChoices', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                choice: choice,
-            }),
-        })
-        event.preventDefault();
-        console.log({choice: choice})
-    }
-
     const openQuestionModal = (el) => {
         setModalShow(!modalShow);
         // + gör om string till integer, om stringen redan är en siffra
@@ -51,30 +32,10 @@ const Settings = () => {
     const QuestionModal = ({questionId}) => {
         console.log(questionId, 1)
         if (!questionId) return;
-        const currentQuestion = questions.find(el => el.id === questionId)
+        currentQuestion = questions.find(el => el.id === questionId);
 
         return (
-            <div className='question-modal'>
-                <div className='question-modal-container'>
-                    <h3 className='question-modal-header'>
-                        {currentQuestion.question}
-                    </h3>
-                    <div className='question-answer-container'>
-                        <h4 style={{fontStyle: 'italic', fontWeight: '400', marginBottom: '5px'}}>Add new answers to question:</h4>
-                        <input placeholder={'New answer'}/>
-                        {/*<button type={'submit'} style={{marginLeft: '5px', border: '1px solid black', borderRadius: '5px'}} onClick={() => handleSubmit()}>Add</button>*/}
-
-                        <form onSubmit={handleSubmit}>
-                            <label>
-                                <input value={choice} type={'text'} placeholder={'New answer'} onChange={e => handleChange(e)}/>
-                            </label>
-                        </form>
-                        <div style={{padding: '10px', marginTop: '20px', textDecoration: 'underline'}}>
-                            <p>{choice}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <Modal currentQuestion={currentQuestion}/>
         )
     }
 
