@@ -13,8 +13,8 @@ const Quiz = () => {
 
     useEffect(() => {
         Promise.all([
-            fetch('https://937b-82-196-111-182.ngrok-free.app/getQuizQuestions'),
-            fetch('https://937b-82-196-111-182.ngrok-free.app/getQuizChoices'),
+            fetch('http://localhost:3001/getQuizQuestions'),
+            fetch('http://localhost:3001/getQuizChoices'),
         ])
             .then(([resQuestions, resChoices]) =>
                 Promise.all([resQuestions.json(), resChoices.json()])
