@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import '../styles/style.css';
+import {Link} from "react-router-dom";
 
 const Quiz = () => {
     const [questions, setQuestions] = useState([]);
@@ -76,6 +77,9 @@ const Quiz = () => {
                 </div>
                 <div className="question-container">
                     <span className="question">End of quiz</span>
+                </div>
+                <div>
+                    <Link className="result-button" to={'/results'}>Show result</Link>
                 </div>
             </>
         );
