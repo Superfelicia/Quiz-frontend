@@ -96,7 +96,7 @@ const Quiz = () => {
                     <div className="container">
                         {choices.map(({choice}, index) => (
                             <div id="option-container"
-                                 onClick={() => onSelectedAnswer(choice.id, index)}
+                                 onClick={() => onSelectedAnswer(choice.id, index, selectedAnswer)}
                                  className={index === selectedAnswerIndex ? 'selected-answer' : null}
                                  key={index}>
                                 <div className='option-text'>

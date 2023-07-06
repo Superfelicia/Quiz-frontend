@@ -13,7 +13,8 @@ const Settings = () => {
     useEffect(() => {
         async function asyncFetch() {
             const res = await fetch('http://localhost:3001/settings');
-            const resQuestions = await fetch('http://localhost:3001/getQuizQuestions').then(res => res.json())
+            const resQuestions = await fetch('http://localhost:3001/getQuizQuestions')
+                .then(res => res.json())
             setSettings(res);
             console.log(resQuestions)
             setQuestions(resQuestions)
@@ -26,11 +27,9 @@ const Settings = () => {
         setModalShow(!modalShow);
         // + gör om string till integer, om stringen redan är en siffra
         setActiveQuestion(+el.target.id)
-        console.log(el.target.id)
     }
 
     const QuestionModal = ({questionId}) => {
-        console.log(questionId, 1)
         if (!questionId) return;
         currentQuestion = questions.find(el => el.id === questionId);
 
@@ -38,6 +37,44 @@ const Settings = () => {
             <Modal currentQuestion={currentQuestion}/>
         )
     }
+
+    const QuestionComponent = (props) => {
+        const [edit, setEdit] = useState(false);
+        const [value, setValue] = useState('');
+
+        const handleChange = (event) => {
+            const newValue = event.target.value;
+            setValue(newValue);
+        }
+
+        const handleClick = () => {
+            setEdit(false);
+            props.question.question = value;
+            console.log('value changed');
+        }
+
+        return (
+            <div style={{display: "flex", flexDirection: 'row', justifyContent: 'space-between', border: '1px solid pink'}}>
+                <div onClick={() => setEdit(true)} style={{
+                    margin: '10px',
+                    padding: '5px',
+                    display: 'flex',
+                    justifyContent: 'space-between'
+                }}>
+                    {!edit ? (
+                        <p id={props.question.id}>{props.question.question}</p>
+                    ) : (
+                        <input type={'text'} value={value} onChange={(event) => handleChange(event)}/>
+                    )}
+                </div>
+                <div style={{alignSelf: 'center', padding: '10px', cursor: 'pointer'}} onClick={() => handleClick()}>
+                    <FontAwesomeIcon icon={faWrench}/>
+                </div>
+            </div>
+
+        )
+    }
+
 
     return (
         <>
@@ -49,9 +86,11 @@ const Settings = () => {
                     <div className='settings-grid-1'>
                         <h3 className='settings-h3'>General quiz settings</h3>
                         <div style={{margin: '5px'}}>
-                            <p style={{marginBottom: '10px', }}>Quiz name:</p>
+                            <p style={{marginBottom: '10px',}}>Quiz name:</p>
                             <input type={'text'}/>
-                            <button type={'submit'} style={{marginLeft: '5px', border: '1px solid black', borderRadius: '5px'}}>Submit</button>
+                            <button type={'submit'}
+                                    style={{marginLeft: '5px', border: '1px solid black', borderRadius: '5px'}}>Submit
+                            </button>
                         </div>
                     </div>
                     <div className='settings-grid-2'>
@@ -73,13 +112,7 @@ const Settings = () => {
                         <h3 className='settings-h3'>Questions</h3>
                         <h4 style={{fontStyle: 'italic', fontWeight: '400'}}>Add more answers to a question:</h4>
                         {questions.length && questions.map((question) => {
-                            return (
-                                <div onClick={(el) => openQuestionModal(el)}
-                                     style={{border: '1px solid pink', margin: '10px', padding: '5px', display: 'flex', justifyContent: 'space-between'}}>
-                                    <p id={question.id}>{question.question}</p>
-                                    <FontAwesomeIcon icon={faWrench}/>
-                                </div>
-                            )
+                            return <QuestionComponent question={question}/>
                         })}
                     </div>
                 </div>

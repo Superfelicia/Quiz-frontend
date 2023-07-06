@@ -44,7 +44,10 @@ const Results = () => {
             }
         }
 
-        let answerCounts = matchedAnswers.reduce((count, answer) => (count[answer] = count[answer] + 1 || 1, count), {});
+        let answerCounts = matchedAnswers.reduce((count, answer) => {
+            count[answer] = count[answer] + 1 || 1;
+            return count
+        }, {});
         // Find objects occurring multiple times
         for (let el in answerCounts) {
             if (answerCounts.hasOwnProperty(el)) {
