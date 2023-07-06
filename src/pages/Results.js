@@ -1,28 +1,33 @@
 import {useEffect, useState} from "react";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faCrown, faMedal, faAward} from '@fortawesome/free-solid-svg-icons';
-import {Link} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 
 const Results = () => {
-    const [questions, setQuestions] = useState([]);
+    const location = useLocation();
+    const questions = location.state;
+
     const [answers, setAnswers] = useState([]);
     const [activeQuestion, setActiveQuestion] = useState(0);
     const [isFinished, setIsFinished] = useState(false);
 
+    console.log(questions, 'hej');
+
+    useEffect(() => {
+        console.log(answers, 'svar');
+    }, [answers])
 
     useEffect(() => {
         const headers = new Headers();
         headers.append('ngrok-skip-browser-warning', 'true');
 
         Promise.all([
-            fetch('https://647c-82-196-111-182.ngrok-free.app/getQuizQuestions', {headers}),
             fetch('https://647c-82-196-111-182.ngrok-free.app/getQuizAnswers', {headers}),
         ])
-            .then(([resQuestions, resAnswers]) =>
-                Promise.all([resQuestions.json(), resAnswers.json()])
+            .then(([resAnswers]) =>
+                Promise.all([resAnswers.json()])
             )
-            .then(([dataQuestions, dataAnswers]) => {
-                setQuestions(dataQuestions);
+            .then(([dataAnswers]) => {
                 setAnswers(dataAnswers);
             });
     }, []);
@@ -59,7 +64,6 @@ const Results = () => {
             }
         }
 
-
         let sortedAnswers = formattedAnswers.sort((a, b) => b.count - a.count);
 
         const identicalCountCollection = new Map();
@@ -75,7 +79,6 @@ const Results = () => {
                 identicalCountCollection.set(voteAmount, [sortedAnswers[i].count, sortedAnswers[i].name]);
             }
         }
-
         return Array.from(identicalCountCollection.values());
     }
 
@@ -91,7 +94,7 @@ const Results = () => {
         return (
             <>
                 <div className="header">
-                        <h4>Results</h4>
+                    <h4>Results</h4>
                 </div>
                 <div className="question-container">
                     <span className="question">End of results</span>
@@ -141,6 +144,8 @@ const Results = () => {
         )
     }
 
+    if (questions?.length === 0 || !questions) return null;
+
     return (
         <div className="display-container">
             {isFinished ? endOfResults() : (
@@ -186,8 +191,7 @@ const Results = () => {
                             onClick={onClickNext}>{activeQuestion === questions.length - 1 ? 'End of results' : 'Next'}
                     </button>
                 </>
-            )
-            }
+            )}
         </div>
     )
 }

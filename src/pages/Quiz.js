@@ -82,7 +82,7 @@ const Quiz = () => {
                     <span className="question">End of quiz</span>
                 </div>
                 <div>
-                    <Link className="result-button" to={'/results'}>Show result</Link>
+                    <Link className="result-button" to={'/results'} state={questions}>Show result</Link>
                 </div>
             </>
         );
