@@ -206,6 +206,7 @@ button {
     color: #ffffff;
     padding: 0.7em 1.8em;
     border-radius: 0.3em;
+    text-decoration: none;
     float: right;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
     opacity: 0.8;
@@ -225,6 +226,7 @@ button {
     font-size: 1em;
     padding: 16px;
     width: 120px;
+    text-decoration: none;
     opacity: 0.8;
     float: right;
     transition: all 0.5s;
@@ -237,10 +239,6 @@ button {
     display: inline-block;
     position: relative;
     transition: 0.5s;
-}
-
-.result-button {
-    text-decoration: none;
 }
 
 .result-button:after {

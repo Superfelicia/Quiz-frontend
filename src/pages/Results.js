@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faCrown, faMedal, faAward} from '@fortawesome/free-solid-svg-icons';
+import {Link} from "react-router-dom";
 
 const Results = () => {
     const [questions, setQuestions] = useState([]);
@@ -91,6 +92,9 @@ const Results = () => {
                 </div>
                 <div className="question-container">
                     <span className="question">End of results</span>
+                </div>
+                <div>
+                    <Link className='next-button' to={'/'}>Back to quiz</Link>
                 </div>
             </>
         );
