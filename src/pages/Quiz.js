@@ -60,7 +60,7 @@ const Quiz = () => {
     }
 
     const onFinishedClick = () => {
-        fetch('http://localhost:3001/postQuizAnswers', {
+        fetch('https://647c-82-196-111-182.ngrok-free.app/postQuizAnswers', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
