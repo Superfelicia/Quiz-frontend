@@ -16,8 +16,8 @@ const Quiz = () => {
         headers.append('ngrok-skip-browser-warning', 'true');
 
         Promise.all([
-            fetch('http://localhost:3001/getQuizQuestions', {headers}),
-            fetch('http://localhost:3001/getQuizChoices', {headers}),
+            fetch('https://647c-82-196-111-182.ngrok-free.app/getQuizQuestions', {headers}),
+            fetch('https://647c-82-196-111-182.ngrok-free.app/getQuizChoices', {headers}),
         ])
             .then(([resQuestions, resChoices]) =>
                 Promise.all([resQuestions.json(), resChoices.json()])
