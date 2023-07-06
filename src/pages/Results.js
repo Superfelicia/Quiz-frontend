@@ -129,7 +129,7 @@ const Results = () => {
         }
         return (
             <div className='award-icon'>
-                <FontAwesomeIcon index={index} icon={icon} size={size}></FontAwesomeIcon>
+                <FontAwesomeIcon icon={icon} size={size}></FontAwesomeIcon>
             </div>
         )
     }
@@ -150,19 +150,25 @@ const Results = () => {
                                     <div className='result-answer'>
                                         {el.map((item, index) => {
                                             if (typeof item === 'string')
-                                                return <div key={index} className='text'>
-                                                    {item}
-                                                </div>
+                                                return (
+                                                    <div key={index} className='text'>
+                                                        {item}
+                                                    </div>
+                                                );
+                                            return null;
                                         })}
                                     </div>
                                     <ResultsIcon index={index}/>
                                     <div className='result-answer'>
                                         {el.map((item, index) => {
                                             if (typeof item === 'number') {
-                                                return <div key={index} className='text-count'>
-                                                    {item}
-                                                </div>
+                                                return (
+                                                    <div key={index} className='text-count'>
+                                                        {item}
+                                                    </div>
+                                                );
                                             }
+                                            return null;
                                         })}
                                     </div>
                                 </div>
