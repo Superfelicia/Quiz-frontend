@@ -11,9 +11,12 @@ const Results = () => {
 
 
     useEffect(() => {
+        const headers = new Headers();
+        headers.append('ngrok-skip-browser-warning', 'true');
+
         Promise.all([
-            fetch('http://localhost:3001/getQuizQuestions'),
-            fetch('http://localhost:3001/getQuizAnswers'),
+            fetch('http://localhost:3001/getQuizQuestions', {headers}),
+            fetch('http://localhost:3001/getQuizAnswers', {headers}),
         ])
             .then(([resQuestions, resAnswers]) =>
                 Promise.all([resQuestions.json(), resAnswers.json()])
