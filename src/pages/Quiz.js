@@ -90,33 +90,37 @@ const Quiz = () => {
 
     return (
         <div className="display-container">
-            {isFinished ? quizIsFinished() : (
-                <>
-                    <div className="header">
-                        <div>
-                            <h4>NF10 quiz</h4>
-                        </div>
-                    </div>
-                    <div className="question-container">
-                        <span className="question">{renderQuestion()}</span>
-                    </div>
-                    <div className="container">
-                        {choices.map(({choice}, index) => (
-                            <div id="option-container"
-                                 onClick={() => onSelectedAnswer(choice.id, index, selectedAnswer)}
-                                 className={index === selectedAnswerIndex ? 'selected-answer' : null}
-                                 key={index}>
-                                <div className='option-text'>
-                                    {`${choice}`}
+            {questions.length > 0 &&
+                <div>
+                    {isFinished ? quizIsFinished() : (
+                        <>
+                            <div className="header">
+                                <div>
+                                    <h4>NF10 quiz</h4>
                                 </div>
                             </div>
-                        ))}
-                    </div>
-                    <button className="next-button" disabled={selectedAnswerIndex === null}
-                            onClick={activeQuestion >= questions.length - 1 ? onFinishedClick : onClickNext}>{activeQuestion === questions.length - 1 ? 'Finish' : 'Next'}
-                    </button>
-                </>
-            )}
+                            <div className="question-container">
+                                <span className="question">{renderQuestion()}</span>
+                            </div>
+                            <div className="container">
+                                {choices.map(({choice}, index) => (
+                                    <div id="option-container"
+                                         onClick={() => onSelectedAnswer(choice.id, index, selectedAnswer)}
+                                         className={index === selectedAnswerIndex ? 'selected-answer' : null}
+                                         key={index}>
+                                        <div className='option-text'>
+                                            {`${choice}`}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                            <button className="next-button" disabled={selectedAnswerIndex === null}
+                                    onClick={activeQuestion >= questions.length - 1 ? onFinishedClick : onClickNext}>{activeQuestion === questions.length - 1 ? 'Finish' : 'Next'}
+                            </button>
+                        </>
+                    )}
+                </div>
+            }
         </div>
     );
 }
